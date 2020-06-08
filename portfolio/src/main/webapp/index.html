@@ -2,17 +2,26 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>My Portfolio</title>
+    <title>Jeremy Tajonera's Portfolio</title>
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
   </head>
   <body>
-    <div id="content">
+    <div class="content">
+      <div class="center-image">
+      <img src="/images/pfp.png">
       <h1>Jeremy's Portfolio</h1>
       <p>This is my portfolio.</p>
+      <p>I am a rising junior at University of Texas at Austin and I love to code and learn new things!</p>
       <p>Click here to get a random message:</p>
       <button onclick="addRandomGreeting()">Hello</button>
-      <div id="greeting-container"></div>
+      <div id="greeting-container" class="container"></div>
+      <p>Find about some of my facts!</p>
+      <button onclick="addRandomFact()">Fact Button</button>
+      <div id="fact-container" class="container"></div>
+      <a href="https://github.com/jtajonera">GitHub</a>
+      <span> | </span>
+      <a href="https://www.linkedin.com/in/jeremy-tajonera/">LinkedIn</a>
     </div>
   </body>
 </html>
