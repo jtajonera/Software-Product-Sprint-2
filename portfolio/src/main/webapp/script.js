@@ -46,10 +46,29 @@ function addRandomFact() {
 }
 
 /**
- * Uses arrow functions and a promise chain to get the greeting from DataServlet and place it into the DOM
+ * Creates a new list element
  */
-function getGreetServ() {
-  fetch('/data').then(response => response.text()).then((greet) => {
-    document.getElementById('greet-serv-container').innerText = greet;
-  });
+function createListElement(text) {
+  const liElement = document.createElement('li');
+  liElement.innerText = text;
+  return liElement;
+}
+
+
+/**
+ * Uses arrow functions and a promise chain to get the comments from DataServlet and place it into the DOM
+ * inside a list.
+ */
+function getHardComments() {
+  fetch('/data').then(response => response.json()).then((greet) => {
+    const listElement = document.getElementById('hard-container');
+        listElement.innerHTML = '';
+        for(i in greet){
+            greet[i];
+            console.log(greet[i] +" " + i +" "+ greet.length);
+            listElement.append(createListElement( greet[i]));
+        }
+});
+
+
 }
