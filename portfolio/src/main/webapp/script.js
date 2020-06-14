@@ -44,3 +44,12 @@ function addRandomFact() {
   const factContainer = document.getElementById('fact-container');
   factContainer.innerText = fact;
 }
+
+/**
+ * Uses arrow functions and a promise chain to get the greeting from DataServlet and place it into the DOM
+ */
+function getGreetServ() {
+  fetch('/data').then(response => response.text()).then((greet) => {
+    document.getElementById('greet-serv-container').innerText = greet;
+  });
+}
