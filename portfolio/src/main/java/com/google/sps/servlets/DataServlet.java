@@ -14,6 +14,9 @@
 
 package com.google.sps.servlets;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
 import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,35 +26,59 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Servlet that returns some example content. TODO: modify this file to handle comments data */
+/** Servlet that returns some example content. TODO: modify this file to handle hardComments data */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
   
+  private List<String> hardComments;
   private List<String> comments;
 
   @Override
   public void init() {
-    comments = new ArrayList<>();
-    comments.add("Here is a comment");
-    comments.add("Here is another comment");
-    comments.add("Here is one last comment");
+    hardComments = new ArrayList<>();
+    hardComments.add("Here is a comment");
+    hardComments.add("Here is another comment");
+    hardComments.add("Here is one last comment");
   }
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // response.setContentType("text/html;");
     // response.getWriter().println("Hello Jeremy!");
+    // String json = listToJson(hardComments);
     String json = listToJson(comments);
-
     // Send the JSON as the response
     response.setContentType("application/json;");
     response.getWriter().println(json);
   }
+  
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    // Get the input from the form.
+    // String com = request.getParameter("text-input");
+    // if(com == null)
+    //     com = "test";
+    
+    // comments.add(com);
+    // response.sendRedirect("/index.html");
 
-//   Converts the arrayList into JSON format using GSON
-  private String listToJson(List comments) {
+    String com = request.getParameter("com");
+    long timestamp = System.currentTimeMillis();
+
+    Entity comEntity = new Entity("comEntity");
+    comEntity.setProperty("comment", com);
+    comEntity.setProperty("timestamp", timestamp);
+
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    datastore.put(comEntity);
+
+    response.sendRedirect("/index.html");
+  }
+
+  // Converts the arrayList into JSON format using GSON
+  private String listToJson(List hardComments) {
     Gson gson = new Gson();
-    String json = gson.toJson(comments);
+    String json = gson.toJson(hardComments);
     return json;
   }
 }
