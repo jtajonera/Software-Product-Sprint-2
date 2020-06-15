@@ -26,42 +26,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Servlet that returns some example content. TODO: modify this file to handle hardComments data */
+/** Posts new comments to server*/
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
-  
-  private List<String> hardComments;
-  private List<String> comments;
-
-  @Override
-  public void init() {
-    hardComments = new ArrayList<>();
-    hardComments.add("Here is a comment");
-    hardComments.add("Here is another comment");
-    hardComments.add("Here is one last comment");
-  }
-
-  @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // response.setContentType("text/html;");
-    // response.getWriter().println("Hello Jeremy!");
-    // String json = listToJson(hardComments);
-    String json = listToJson(comments);
-    // Send the JSON as the response
-    response.setContentType("application/json;");
-    response.getWriter().println(json);
-  }
-  
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // Get the input from the form.
-    // String com = request.getParameter("text-input");
-    // if(com == null)
-    //     com = "test";
-    
-    // comments.add(com);
-    // response.sendRedirect("/index.html");
-
     String com = request.getParameter("com");
     long timestamp = System.currentTimeMillis();
 
@@ -73,12 +42,5 @@ public class DataServlet extends HttpServlet {
     datastore.put(comEntity);
 
     response.sendRedirect("/index.html");
-  }
-
-  // Converts the arrayList into JSON format using GSON
-  private String listToJson(List hardComments) {
-    Gson gson = new Gson();
-    String json = gson.toJson(hardComments);
-    return json;
   }
 }

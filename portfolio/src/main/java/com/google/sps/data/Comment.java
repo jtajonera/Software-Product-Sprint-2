@@ -7,9 +7,10 @@ public final class Comment {
   private final String comment;
   private final long timestamp;
 
-  public Comment(long id, String com, long timestamp) {
+  // Constructor for the Comment Class, it takes in a long ID and timestap and a String comment
+  public Comment(long id, String comment, long timestamp) {
     this.id = id;
-    this.comment = com;
+    this.comment = comment;
     this.timestamp = timestamp;
   }
 }

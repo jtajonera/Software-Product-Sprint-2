@@ -45,39 +45,13 @@ function addRandomFact() {
   factContainer.innerText = fact;
 }
 
-// /**
-//  * Creates a new list element
-//  */
-// function createListElement(text) {
-//   const liElement = document.createElement('li');
-//   liElement.innerText = text;
-//   return liElement;
-// }
-
-
-// /**
-//  * Uses arrow functions and a promise chain to get the comments from DataServlet and place it into the DOM
-//  * inside a list.
-//  */
-// function getHardComments() {
-//   fetch('/data').then(response => response.json()).then((greet) => {
-//     const listElement = document.getElementById('hard-container');
-//         listElement.innerHTML = '';
-//         for(i in greet){
-//             greet[i];
-//             console.log(greet[i] +" " + i +" "+ greet.length);
-//             listElement.append(createListElement( greet[i]));
-//         }
-//   });
-// }
-
 // Loads the comments onto the page on load
 function loadComments() {
   fetch('/list-com').then(response => response.json()).then((coms) => {
     const comContainer = document.getElementById('comment-container');
-    coms.forEach((com) => {
+    for(const com of coms) {
       comContainer.appendChild(createList(com));
-    })
+    }
   });
 }
 
