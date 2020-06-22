@@ -14,6 +14,9 @@
 
 package com.google.sps.servlets;
 
+import com.google.cloud.language.v1.Document;
+import com.google.cloud.language.v1.LanguageServiceClient;
+import com.google.cloud.language.v1.Sentiment;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -27,20 +30,29 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /** Posts new comments to server*/
-@WebServlet("/data")
-public class DataServlet extends HttpServlet {
+@WebServlet("/new-comment")
+public class NewComServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String com = request.getParameter("com");
     long timestamp = System.currentTimeMillis();
-
+    float sentimentScore = getSentiment(com);
     Entity comEntity = new Entity("comEntity");
     comEntity.setProperty("comment", com);
     comEntity.setProperty("timestamp", timestamp);
-
+    comEntity.setProperty("sentiment", sentimentScore);
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(comEntity);
-
     response.sendRedirect("/index.html");
+  }
+
+  // Returns the sentiment for a given message
+  public float getSentiment(String message) throws IOException {
+    Document doc = Document.newBuilder().setContent(message).setType(Document.Type.PLAIN_TEXT).build();
+    LanguageServiceClient languageService = LanguageServiceClient.create();
+    Sentiment sentiment = languageService.analyzeSentiment(doc).getDocumentSentiment();
+    float score = sentiment.getScore();
+    languageService.close();
+    return score;
   }
 }

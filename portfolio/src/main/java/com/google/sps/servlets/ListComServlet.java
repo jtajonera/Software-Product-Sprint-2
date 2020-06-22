@@ -46,7 +46,8 @@ public class ListComServlet extends HttpServlet {
       long id = e.getKey().getId();
       String com = (String) e.getProperty("comment");
       long timestamp = (long) e.getProperty("timestamp");
-      Comment comData = new Comment(id, com, timestamp);
+      double sentiment = (Double) e.getProperty("sentiment");
+      Comment comData = new Comment(id, com, timestamp, sentiment);
       comments.add(comData);
     }
 

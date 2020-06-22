@@ -61,7 +61,14 @@ function createList(com) {
   comLi.className = 'comList';
 
   const comData = document.createElement('span');
-  comData.innerText = com.comment + " ";
+  //Determines which emoji to use based on sentiment
+  var sentimentEmoji = "😐";
+  if(com.sentiment < -0.5)
+    sentimentEmoji = "😢";
+  else if(com.sentiment > 0.5)
+    sentimentEmoji = "😃";
+
+  comData.innerText = "(Sentiment: " + sentimentEmoji + ") " + com.comment + " ";
 
   const deleteBut = document.createElement('button');
   deleteBut.innerText = 'Delete Comment';
