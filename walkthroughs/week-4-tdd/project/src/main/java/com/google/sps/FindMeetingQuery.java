@@ -106,7 +106,6 @@ public final class FindMeetingQuery {
       }
     }
     Collections.sort(timeRangesAvail, TimeRange.ORDER_BY_START); //Order by start times
-    Collection<TimeRange> colltimeRangesAvail = timeRangesAvail; //Cast to a Collection
     return timeRangesAvail; 
   }
 }
