@@ -44,3 +44,52 @@ function addRandomFact() {
   const factContainer = document.getElementById('fact-container');
   factContainer.innerText = fact;
 }
+
+// Loads the comments onto the page on load
+function loadComments() {
+  fetch('/list-com').then(response => response.json()).then((coms) => {
+    const comContainer = document.getElementById('comment-container');
+    for(const com of coms) {
+      comContainer.appendChild(createList(com));
+    }
+  });
+}
+
+//Creates a list element for each comment
+function createList(com) {
+  const comLi = document.createElement('li');
+  comLi.className = 'comList';
+
+  const comData = document.createElement('span');
+  //Determines which emoji to use based on sentiment
+  var sentimentEmoji = "😐";
+  if(com.sentiment < -0.5)
+    sentimentEmoji = "😢";
+  else if(com.sentiment > 0.5)
+    sentimentEmoji = "😃";
+
+  comData.innerText = "(Sentiment: " + sentimentEmoji + ") " + com.comment + " ";
+
+  const deleteBut = document.createElement('button');
+  deleteBut.innerText = 'Delete Comment';
+  deleteBut.addEventListener('click', () => {
+    deleteComment(com);
+
+    // Remove the task from the DOM.
+    comLi.remove();
+  });
+
+  comLi.appendChild(comData);
+  comLi.appendChild(deleteBut);
+  return comLi;
+}
+
+// Deletes the comment from the server
+function deleteComment(task) {
+  const params = new URLSearchParams();
+  params.append('id', task.id);
+  fetch('/delete-comment', {method: 'POST', body: params});
+}
+
+
+
