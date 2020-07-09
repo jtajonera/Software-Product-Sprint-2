@@ -22,6 +22,15 @@ public class Greeter {
    * Returns a greeting for the given name.
    */
   public String greet(String name) {
-    return "Hello " + name;
+    String newName = name;
+    //Runs as long as there are spaces in the name
+    while(newName.contains(" ")){
+        int spaceLoc = newName.indexOf(" ");
+        if(spaceLoc != newName.length()) //Removes spaces from the name
+            newName = newName.substring(0, spaceLoc) + newName.substring(spaceLoc + 1, newName.length());
+        else if(spaceLoc == newName.length()) //Special Case if there is a space in the last index
+            newName = newName.substring(0, newName.length() - 1);
+    }
+    return "Hello " + newName;
   }
 }
